@@ -27,5 +27,47 @@ namespace SistemaFinanceiroUGB232.Controllers
         {
             return View(instituicoes);
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Instituicao instituicao) 
+        { 
+            instituicao.InstituicaoID = instituicoes.Select (i => i.InstituicaoID).Max () +1;
+            instituicoes.Add(instituicao);
+            return RedirectToAction("Index");
+           
+        }
+        public IActionResult Edit(long id) 
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Instituicao instituicao)
+        {
+            instituicoes.Remove(instituicoes.Where(i => i.InstituicaoID == instituicao.InstituicaoID).First());
+            instituicoes.Add(instituicao);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Details(long id) 
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+
+        public IActionResult Delete(long id) 
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Instituicao instituicao) 
+        {
+            instituicoes.Remove(instituicoes.Where(i => i.InstituicaoID == instituicao.InstituicaoID).First());
+            return RedirectToAction("Index");
+        }    
+     
     }
 }
